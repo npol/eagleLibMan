@@ -4,12 +4,7 @@ from wx.lib.pubsub import Publisher as pub
 class editGUI(wx.Panel):
     def __init__(s, parent):
         wx.Panel.__init__(s, parent, style=wx.RAISED_BORDER)
-        s.parent = parent
-        boxSizer = wx.BoxSizer()
-        s.text = wx.StaticText(s, label='No Library Selected')
-        boxSizer.Add(s.text)
-        s.SetSizer(boxSizer)
-        boxSizer.Fit(s)
+        s.confBlank()
         pub.subscribe(s.onEditChanged, 'editChanged')
         return
     def onEditChanged(s, message):
@@ -36,7 +31,18 @@ class editGUI(wx.Panel):
             print 'error'
             print message.data
         return
+    def clearPanel(s):
+        for child in s.GetChildren():
+            child.Destroy()
+        return
     def confBlank(s):
+        s.clearPanel()
+        s.text = wx.StaticText(s, label='No Library Selected')
+        sizer=wx.GridSizer(1,1)
+        sizer.Add(s.text,flag=wx.ALIGN_CENTER)
+        s.SetSizer(sizer)
+        sizer.Fit(s)
+        s.Layout()
         return
     def confDevset(s):
         return
