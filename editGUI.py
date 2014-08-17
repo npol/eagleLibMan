@@ -8,29 +8,28 @@ class editGUI(wx.Panel):
         pub.subscribe(s.onEditChanged, 'editChanged')
         return
     def onEditChanged(s, message):
-        if(True):
-            print message.data
-            if(message.data[0] == ''):#Clicked on directory, deselect all libraries
-                s.confBlank()#Sets text to 'No Library Selected'
-            elif(message.data[0] == 'lbr'):#Clicked on library in filetree, show libeditor
-                s.confLib(message.data[1])
-            return
         if(message.data[0] == 'syT'):
+            s.confBlank()#TODO: replace with GUI initator
             s.text.SetLabel('%d symbols' %(message.data[1]))
         elif(message.data[0] == 'pkT'):
+            s.confBlank()#TODO: replace with GUI initiator
             s.text.SetLabel('%d packages' %(message.data[1]))
         elif(message.data[0] == 'deT'):
+            s.confBlank()#TODO: replace with GUI initiator
             s.text.SetLabel('%d devicesets' %(message.data[1]))
         elif(message.data[0] == 'sym'):
+            s.confBlank()#TODO: replace with GUI initiator
             s.text.SetLabel('Symbol %d' %(message.data[1]))
         elif(message.data[0] == 'pkg'):
+            s.confBlank()#TODO: replace with GUI initiator
             s.text.SetLabel('Package %d' %(message.data[1]))
         elif(message.data[0] == 'dev'):
+            s.confBlank()#TODO: replace with GUI initiator
             s.text.SetLabel('Deviceset %d' %(message.data[1]))
-        elif(message.data[0] == 'lbr'):
-            s.text.SetLabel('Library')
-        elif(message.data[0] == ''):
-            s.text.SetLabel('No Library Selected')
+        elif(message.data[0] == 'lbr'):#Clicked on library in file tree, open libeditor
+            s.confLib(message.data[1])
+        elif(message.data[0] == ''):#Clicked on directory in file tree, deselect
+            s.confBlank()#Sets text to 'No Library Selected'
         else:
             print 'error'
             print message.data
