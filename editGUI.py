@@ -10,6 +10,10 @@ class editGUI(wx.Panel):
     def onEditChanged(s, message):
         if(True):
             print message.data
+            if(message.data[0] == ''):#Clicked on directory, deselect all libraries
+                s.confBlank()#Sets text to 'No Library Selected'
+            elif(message.data[0] == 'lbr'):#Clicked on library in filetree, show libeditor
+                s.confLib(message.data[1])
             return
         if(message.data[0] == 'syT'):
             s.text.SetLabel('%d symbols' %(message.data[1]))
@@ -42,6 +46,29 @@ class editGUI(wx.Panel):
         sizer.Add(s.text,flag=wx.ALIGN_CENTER)
         s.SetSizer(sizer)
         sizer.Fit(s)
+        s.Layout()
+        return
+    def confLib(s, fileName):
+        s.clearPanel()
+        s.libL = wx.StaticText(s, label='Library: %s' %(fileName))
+        s.verL = wx.StaticText(s, label='Created in Eagle Version')
+        s.ver = wx.TextCtrl(s)
+        s.vecFontL = wx.StaticText(s, label='Always Vector Font')
+        s.vecFont = wx.wx.TextCtrl(s)
+        s.verTextL = wx.StaticText(s, label='Vertical Text')
+        s.verText = wx.TextCtrl(s)
+        #TODO: Add widgets for grid
+        #TODO: Add layer settings
+        mainSizer = wx.GridBagSizer(hgap=5,vgap=5)
+        mainSizer.Add(s.libL,pos=(0,0),flag=wx.ALL,span=(1,2))
+        mainSizer.Add(s.verL,pos=(1,0),flag=wx.ALL)
+        mainSizer.Add(s.ver,pos=(1,1),flag=wx.ALL)
+        mainSizer.Add(s.vecFontL,pos=(2,0),flag=wx.ALL)
+        mainSizer.Add(s.vecFont,pos=(2,1),flag=wx.ALL)
+        mainSizer.Add(s.verTextL,pos=(3,0),flag=wx.ALL)
+        mainSizer.Add(s.verText,pos=(3,1),flag=wx.ALL)
+        s.SetSizer(mainSizer)
+        mainSizer.Fit(s)
         s.Layout()
         return
     def confDevset(s):
