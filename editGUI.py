@@ -13,6 +13,9 @@ class editGUI(wx.Panel):
         pub.subscribe(s.onEditChanged, 'editChanged')
         return
     def onEditChanged(s, message):
+        if(True):
+            print message.data
+            return
         if(message.data[0] == 'syT'):
             s.text.SetLabel('%d symbols' %(message.data[1]))
         elif(message.data[0] == 'pkT'):

@@ -68,7 +68,7 @@ class mainFrame(wx.Frame):
         if(message.data == ''):#Clicked on directory
             pub.sendMessage('editChanged',('',0))
         else:
-            pub.sendMessage('editChanged',('lbr',0))
+            pub.sendMessage('editChanged',('lbr',message.data))
         return
 lbrLib.updatePaths()
 app = wx.App(False)
