@@ -1,9 +1,11 @@
 import wx
 from wx.lib.pubsub import Publisher as pub
 
+unitList = ['mic','mm','mil','inch']
+
 class editGUI(wx.Panel):
     def __init__(s, parent):
-        wx.Panel.__init__(s, parent, style=wx.RAISED_BORDER)
+        wx.Panel.__init__(s, parent)
         s.confBlank()
         pub.subscribe(s.onEditChanged, 'editChanged')
         return
@@ -49,6 +51,11 @@ class editGUI(wx.Panel):
         return
     def confLib(s, fileName):
         s.clearPanel()
+        
+        mainSizer = wx.GridBagSizer(hgap=5,vgap=5)
+        
+        #Library Settings
+        s.libBox = wx.StaticBox(s, label='Library Settings')
         s.libL = wx.StaticText(s, label='Library: %s' %(fileName))
         s.verL = wx.StaticText(s, label='Created in Eagle Version')
         s.ver = wx.TextCtrl(s)
@@ -56,16 +63,63 @@ class editGUI(wx.Panel):
         s.vecFont = wx.wx.TextCtrl(s)
         s.verTextL = wx.StaticText(s, label='Vertical Text')
         s.verText = wx.TextCtrl(s)
-        #TODO: Add widgets for grid
-        #TODO: Add layer settings
-        mainSizer = wx.GridBagSizer(hgap=5,vgap=5)
-        mainSizer.Add(s.libL,pos=(0,0),flag=wx.ALL,span=(1,2))
-        mainSizer.Add(s.verL,pos=(1,0),flag=wx.ALL)
-        mainSizer.Add(s.ver,pos=(1,1),flag=wx.ALL)
-        mainSizer.Add(s.vecFontL,pos=(2,0),flag=wx.ALL)
-        mainSizer.Add(s.vecFont,pos=(2,1),flag=wx.ALL)
-        mainSizer.Add(s.verTextL,pos=(3,0),flag=wx.ALL)
-        mainSizer.Add(s.verText,pos=(3,1),flag=wx.ALL)
+        
+        s.libBoxSizer = wx.StaticBoxSizer(s.libBox)
+        s.libSizer = wx.GridBagSizer(hgap=5,vgap=5)
+        s.libSizer.Add(s.libL,pos=(0,0),flag=wx.ALL,span=(1,2))
+        s.libSizer.Add(s.verL,pos=(1,0),flag=wx.ALL)
+        s.libSizer.Add(s.ver,pos=(1,1),flag=wx.ALL)
+        s.libSizer.Add(s.vecFontL,pos=(2,0),flag=wx.ALL)
+        s.libSizer.Add(s.vecFont,pos=(2,1),flag=wx.ALL)
+        s.libSizer.Add(s.verTextL,pos=(3,0),flag=wx.ALL)
+        s.libSizer.Add(s.verText,pos=(3,1),flag=wx.ALL)
+        s.libBoxSizer.Add(s.libSizer)
+        
+        mainSizer.Add(s.libBoxSizer,pos=(0,0),flag=wx.ALL)
+        
+        #Grid Settings
+        global unitList
+        s.gridBox = wx.StaticBox(s, label='Grid Settings')
+        s.gridDistL = wx.StaticText(s, label='distance')
+        s.gridDist = wx.TextCtrl(s)
+        s.gridDistUnitL = wx.StaticText(s, label='Distance Unit')
+        s.gridDistUnit = wx.ComboBox(s, choices=unitList,name='Distance Unit')
+        s.gridUnitL = wx.StaticText(s, label='Unit')
+        s.gridUnit = wx.ComboBox(s, choices=unitList,name='Unit')
+        s.gridAltDistL = wx.StaticText(s, label='Alt Distance')
+        s.gridAltDist = wx.TextCtrl(s)
+        s.gridAltUnitDistL = wx.StaticText(s, label='Alt Distance Unit')
+        s.gridAltUnitDist = wx.ComboBox(s, choices=unitList,name='Alt Distance Unit')
+        s.gridAltUnitL = wx.StaticText(s, label='Alt Unit')
+        s.gridAltUnit = wx.ComboBox(s, choices=unitList,name='Alt Unit')
+        s.gridStyleL = wx.StaticText(s, label='Style')
+        s.gridStyle = wx.ComboBox(s, choices=['dots','lines'],name='Style')
+        s.gridDispL = wx.StaticText(s, label='Display')
+        s.gridDisp = wx.ComboBox(s, choices=['on','off'],name='Display')
+        
+        s.gridSizer = wx.GridBagSizer(hgap=5,vgap=5)
+        s.gridSizer.Add(s.gridDistL,pos=(0,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridDist,pos=(0,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridDistUnitL,pos=(1,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridDistUnit,pos=(1,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridUnitL,pos=(2,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridUnit,pos=(2,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridAltDistL,pos=(3,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridAltDist,pos=(3,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridAltUnitDistL,pos=(4,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridAltUnitDist,pos=(4,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridAltUnitL,pos=(5,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridAltUnit,pos=(5,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridStyleL,pos=(6,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridStyle,pos=(6,1),flag=wx.ALL)
+        s.gridSizer.Add(s.gridDispL,pos=(7,0),flag=wx.ALL)
+        s.gridSizer.Add(s.gridDisp,pos=(7,1),flag=wx.ALL)
+        
+        s.gridBoxSizer = wx.StaticBoxSizer(s.gridBox)
+        s.gridBoxSizer.Add(s.gridSizer)
+        
+        mainSizer.Add(s.gridBoxSizer,pos=(0,1),flag=wx.ALL)
+        
         s.SetSizer(mainSizer)
         mainSizer.Fit(s)
         s.Layout()
