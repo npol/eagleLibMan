@@ -66,11 +66,9 @@ class mainFrame(wx.Frame):
         global currLibFilename
         currLibFilename = message.data
         if(message.data == ''):#Clicked on directory
-            s.menubar.EnableTop(2,False)
             pub.sendMessage('editChanged',('',0))
         else:
-            s.menubar.EnableTop(2,True)
-            pub.sendMessage('editChanged',('lbr',0))
+            pub.sendMessage('editChanged',('lbr',message.data))
         return
 lbrLib.updatePaths()
 app = wx.App(False)

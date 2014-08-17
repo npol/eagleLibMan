@@ -34,14 +34,8 @@ class fileTree(wx.TreeCtrl):
         
         pub.subscribe(s.updateTree, 'newFilePaths')
         print lbrLib.filePaths
-        
-        #files = s.searchDir('./', '*.lbr')
-        #print files
         s.root = s.AddRoot('Root')#Hidden
         s.updateTree('')
-        #dir1 = s.AppendItem(s.root, 'Dir1')
-        #for library in files:
-        #    s.AppendItem(dir1, os.path.split(library)[1])
 
     #Find .lbr files in given directory
     def searchDir(s, directory, fileExt):
@@ -66,11 +60,8 @@ class fileTree(wx.TreeCtrl):
         #If not a lbr file, expand and select first child
         if(s.ItemHasChildren(selItem)):
             if(not s.IsExpanded(selItem)):
-                print 'Expand'
                 s.Expand(selItem)
-            print 'Clicked on stem'
             s.UnselectAll()
-            print 'Unselect sent'
             pub.sendMessage('libChanged','')
             return
         #If selected a lbr file, Send message to update all library-specific items
@@ -79,8 +70,7 @@ class fileTree(wx.TreeCtrl):
             pub.sendMessage('libChanged','')
             return
         currLibFilename = selName
-        print currLibFilename
-        print 'populate sent'
-        pub.sendMessage('libChanged', currLibFilename)
+        dirName = s.GetItemText(s.GetItemParent(selItem))
+        pub.sendMessage('libChanged', os.path.join(dirName,currLibFilename))
         return
         
